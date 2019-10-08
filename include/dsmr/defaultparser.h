@@ -7,12 +7,21 @@
 
 #pragma once
 
+#include <nlohmann/json.hpp>
 #include <dsmr/dsmr.h>
 
 #include <string>
+#include <iostream>
 
 namespace dsmr
 {
+	class DefaultParser;
+
+	namespace detail
+	{
+		struct PrinterFunc;
+	}
+
 	class DefaultParser {
 	public:
 		using ResultType = ParseResult<void>;
@@ -38,9 +47,50 @@ namespace dsmr
 				/* String */        ,dsmr::fields::gas_equipment_id
 		>;
 
-		constexpr DefaultParser() = default;
-
 		std::string parse(const std::string& datagram);
 		std::string parse(std::string&& datagram);
+
+		void setJsonValue(const std::string& key, const std::string& value)
+		{
+			this->_json[key] = value;
+		}
+
+		void setJsonValue(const std::string& key, uint32_t value)
+		{
+			this->_json[key] = value;
+		}
+
+		void reset()
+		{
+			this->_json.clear();
+		}
+
+		std::string serialize()
+		{
+			return std::move(this->_json.dump(4));
+		}
+	private:
+		nlohmann::json _json;
+
 	};
+
+	namespace detail
+	{
+		struct PrinterFunc {
+			explicit constexpr PrinterFunc(DefaultParser* parser) : parser(parser)
+			{ }
+
+			template <typename AttrType>
+			void apply(AttrType& attr)
+			{
+				std::cout << "Name: " << AttrType::name << std::endl;
+				std::cout << "Value: " << attr.val() << AttrType::unit() << std::endl;
+				this->parser->setJsonValue(AttrType::name, attr.val());
+			}
+
+		private:
+			DefaultParser* parser;
+		};
+
+	}
 }
