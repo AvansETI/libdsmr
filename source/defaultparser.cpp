@@ -20,11 +20,14 @@ namespace dsmr
 		DateType data;
 		ResultType result = P1Parser::parse(&data, datagram.c_str(), datagram.length());
 
-		if(result.err)
+		if(result.err) {
+			auto raw_packet = datagram.c_str();
+			std::cout << "Unable to parse datagram: " << result.fullError(raw_packet, raw_packet + strlen(raw_packet)) << std::endl;
 			return "";
+		}
 
 		this->_json.clear();
 		data.applyEach(detail::PrinterFunc(this));
-		return std::move(this->_json.dump());
+		return this->_json.dump();
 	}
 }
