@@ -15,21 +15,16 @@
 
 namespace dsmr
 {
-
-	std::string DefaultParser::parse(std::string &&datagram)
-	{
-		return std::move(this->parse(datagram));
-	}
-
 	std::string DefaultParser::parse(const std::string &datagram)
 	{
 		DateType data;
 		ResultType result = P1Parser::parse(&data, datagram.c_str(), datagram.length());
 
 		if(result.err)
-			return "{}";
+			return "";
 
+		this->_json.clear();
 		data.applyEach(detail::PrinterFunc(this));
-		return "";
+		return std::move(this->_json.dump());
 	}
 }

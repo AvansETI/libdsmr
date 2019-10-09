@@ -8,6 +8,7 @@
 #include <stdlib.h>
 
 #include <dsmr/dsmr.h>
+#include <dsmr/defaultparser.h>
 
 #include <iostream>
 
@@ -55,18 +56,8 @@ static const char* raw_packet = "/KMP5ZABF001587315111\r\n\r\n"
 
 int main(int argc, char **argv)
 {
-	DsmrData data;
-	ResultData result = P1Parser::parse(&data, raw_packet, strlen(raw_packet));
-
-	if(result.err) {
-		std::cout << "Unable to parse data: " <<
-		          result.fullError(raw_packet, raw_packet + strlen(raw_packet));
-	} else {
-		float energy = data.energy_delivered_tariff1.int_val() +
-		               data.energy_delivered_tariff2.int_val();
-		energy *= 0.001;
-		std::cout << "Energy delivered: " << energy;
-	}
+	DefaultParser parser;
+	std::cout << parser.parse(raw_packet) << std::endl;
 
 	return -EXIT_SUCCESS;
 }

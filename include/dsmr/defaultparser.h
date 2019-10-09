@@ -26,29 +26,28 @@ namespace dsmr
 	public:
 		using ResultType = ParseResult<void>;
 		using DateType = ParsedData<
-				/* String */        dsmr::fields:: identification
-				/* String */        ,dsmr::fields::p1_version
-				/* String */        ,dsmr::fields::timestamp
-				/* String */        ,dsmr::fields::equipment_id
-				/* FixedValue */    ,dsmr::fields::energy_delivered_tariff1
-				/* FixedValue */    ,dsmr::fields::energy_delivered_tariff2
-				/* FixedValue */    ,dsmr::fields::energy_returned_tariff1
-				/* FixedValue */    ,dsmr::fields::energy_returned_tariff2
-				/* String */        ,dsmr::fields::electricity_tariff
-				/* FixedValue */    ,dsmr::fields::power_delivered
-				/* FixedValue */    ,dsmr::fields::power_returned
-				/* FixedValue */    ,dsmr::fields::power_delivered_l1
-				/* FixedValue */    ,dsmr::fields::power_delivered_l2
-				/* FixedValue */    ,dsmr::fields::power_delivered_l3
-				/* FixedValue */    ,dsmr::fields::power_returned_l1
-				/* FixedValue */    ,dsmr::fields::power_returned_l2
-				/* FixedValue */    ,dsmr::fields::power_returned_l3
-				/* uint16_t */      ,dsmr::fields::gas_device_type
-				/* String */        ,dsmr::fields::gas_equipment_id
+		        dsmr::fields::identification,
+		        dsmr::fields::p1_version,
+		        dsmr::fields::timestamp,
+		        dsmr::fields::equipment_id,
+		        dsmr::fields::energy_delivered_tariff1,
+		        dsmr::fields::energy_delivered_tariff2,
+		        dsmr::fields::energy_returned_tariff1,
+		        dsmr::fields::energy_returned_tariff2,
+		        dsmr::fields::electricity_tariff,
+		        dsmr::fields::power_delivered,
+		        dsmr::fields::power_returned,
+		        dsmr::fields::power_delivered_l1,
+		        dsmr::fields::power_delivered_l2,
+		        dsmr::fields::power_delivered_l3,
+		        dsmr::fields::power_returned_l1,
+		        dsmr::fields::power_returned_l2,
+		        dsmr::fields::power_returned_l3,
+		        dsmr::fields::gas_device_type,
+		        dsmr::fields::gas_equipment_id
 		>;
 
 		std::string parse(const std::string& datagram);
-		std::string parse(std::string&& datagram);
 
 		void setJsonValue(const std::string& key, const std::string& value)
 		{
@@ -65,13 +64,8 @@ namespace dsmr
 			this->_json.clear();
 		}
 
-		std::string serialize()
-		{
-			return std::move(this->_json.dump(4));
-		}
 	private:
 		nlohmann::json _json;
-
 	};
 
 	namespace detail
@@ -83,8 +77,6 @@ namespace dsmr
 			template <typename AttrType>
 			void apply(AttrType& attr)
 			{
-				std::cout << "Name: " << AttrType::name << std::endl;
-				std::cout << "Value: " << attr.val() << AttrType::unit() << std::endl;
 				this->parser->setJsonValue(AttrType::name, attr.val());
 			}
 
