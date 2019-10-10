@@ -54,10 +54,24 @@ static const char* raw_packet = "/KMP5ZABF001587315111\r\n\r\n"
    "0-1:24.4.0(1)\r\n"
    "!\r\n";
 
+static void test_mass_parse()
+{
+	std::vector<std::string> datagrams;
+	std::string d1 = raw_packet;
+	DefaultParser parser;
+
+	datagrams.push_back(d1);
+	datagrams.push_back(d1);
+	std::cout << "Parsed data: " << std::endl;
+	std::cout << parser.parse(datagrams) << std::endl;
+}
+
 int main(int argc, char **argv)
 {
 	DefaultParser parser;
 	std::cout << parser.parse(raw_packet) << std::endl;
+
+	test_mass_parse();
 
 	return -EXIT_SUCCESS;
 }
