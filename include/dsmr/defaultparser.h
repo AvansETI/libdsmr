@@ -26,28 +26,29 @@ namespace dsmr
 	public:
 		using ResultType = ParseResult<void>;
 		using DateType = ParsedData<
-		        dsmr::fields::identification,
-		        dsmr::fields::p1_version,
-		        dsmr::fields::timestamp,
-		        dsmr::fields::equipment_id,
-		        dsmr::fields::energy_delivered_tariff1,
-		        dsmr::fields::energy_delivered_tariff2,
-		        dsmr::fields::energy_returned_tariff1,
-		        dsmr::fields::energy_returned_tariff2,
-		        dsmr::fields::electricity_tariff,
-		        dsmr::fields::power_delivered,
-		        dsmr::fields::power_returned,
-		        dsmr::fields::power_delivered_l1,
-		        dsmr::fields::power_delivered_l2,
-		        dsmr::fields::power_delivered_l3,
-		        dsmr::fields::power_returned_l1,
-		        dsmr::fields::power_returned_l2,
-		        dsmr::fields::power_returned_l3,
-		        dsmr::fields::gas_device_type,
-		        dsmr::fields::gas_equipment_id
+			dsmr::fields::identification,
+			dsmr::fields::p1_version,
+			dsmr::fields::timestamp,
+			dsmr::fields::equipment_id,
+			dsmr::fields::energy_delivered_tariff1,
+			dsmr::fields::energy_delivered_tariff2,
+			dsmr::fields::energy_returned_tariff1,
+			dsmr::fields::energy_returned_tariff2,
+			dsmr::fields::electricity_tariff,
+			dsmr::fields::power_delivered,
+			dsmr::fields::power_returned,
+			dsmr::fields::power_delivered_l1,
+			dsmr::fields::power_delivered_l2,
+			dsmr::fields::power_delivered_l3,
+			dsmr::fields::power_returned_l1,
+			dsmr::fields::power_returned_l2,
+			dsmr::fields::power_returned_l3,
+			dsmr::fields::gas_device_type,
+			dsmr::fields::gas_equipment_id
 		>;
 
 		std::string parse(const std::string& datagram);
+		std::string parse(const std::vector<std::string>& datagrams);
 
 		void setJsonValue(const std::string& key, const std::string& value)
 		{
@@ -66,6 +67,8 @@ namespace dsmr
 
 	private:
 		nlohmann::json _json;
+
+		/* Methods */
 	};
 
 	namespace detail
