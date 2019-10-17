@@ -10,8 +10,9 @@
 #include <dsmr/dsmr.h>
 
 #include <iostream>
+#include <dsmr/defaultparser.h>
 
-	using ResultData = ParseResult<void>;
+using ResultData = ParseResult<void>;
 	using DsmrData = ParsedData<
 			/* String */        dsmr::fields:: identification
 			/* String */        ,dsmr::fields::p1_version
@@ -61,7 +62,14 @@ int main(int argc, char **argv)
 		float energy = data.energy_delivered_tariff1.int_val() +
 				data.energy_delivered_tariff2.int_val();
 		energy *= 0.001;
-		std::cout << "Energy delivered: " << energy;
+
+		dsmr::DefaultParser parser;
+
+		std::cout << parser.parse(raw_packet);
+
+		std::cout << "Energy delivered: " << energy << std::endl;
+		std::cout << "Power delivered: " << data.power_delivered.int_val() << std::endl;
+		std::cout << "Power delivered: " << data.power_delivered.val() << std::endl;
 	}
 
 	return -EXIT_SUCCESS;
