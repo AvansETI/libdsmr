@@ -55,7 +55,12 @@ namespace dsmr
 			this->_json[key] = value;
 		}
 
-		void setJsonValue(const std::string& key, uint32_t value)
+		/*void setJsonValue(const std::string& key, uint32_t value)
+		{
+			this->_json[key] = value;
+		}*/
+
+		void setJsonValue(const std::string& key, float value)
 		{
 			this->_json[key] = value;
 		}
