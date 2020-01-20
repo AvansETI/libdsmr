@@ -232,10 +232,8 @@ struct NumParser {
 };
 
 struct ObisIdParser {
-  static ParseResult<ObisId> parse(const char *str, const char *end) {
-    // Parse a Obis ID of the form 1-2:3.4.5.6
-    // Stops parsing on the first unrecognized character. Any unparsed
-    // parts are set to 255.
+  static ParseResult<ObisId> parse(const char *str, const char *end)
+  {
     ParseResult<ObisId> res;
     ObisId& id = res.result;
     res.next = str;
@@ -259,9 +257,6 @@ struct ObisIdParser {
       }
       ++res.next;
     }
-
-    if (res.next == str)
-      return res.fail(F("OBIS id Empty"), str);
 
     for (++part; part < 6; ++part)
       id.v[part] = 255;
