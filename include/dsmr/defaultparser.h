@@ -85,6 +85,9 @@ namespace dsmr
 			template <typename AttrType>
 			void apply(AttrType& attr)
 			{
+				if(!attr.present())
+					return;
+
 				this->parser->setJsonValue(AttrType::name, attr.val());
 			}
 
